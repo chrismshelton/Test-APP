@@ -1,6 +1,7 @@
-import ui.mainwindow
 import sys
 import signal
+
+from ui.app_main import AppMain
 
 # apparently we need this stupid hack to make Ctrl+C actually kill the process
 # i tried running it a couple times and there were bugs, but when I ctrl+c'ed nothing
@@ -10,6 +11,6 @@ import signal
 signal.signal(signal.SIGINT, signal.SIG_DFL)
 
 # copied this verbatim out of https://developer.gnome.org/gnome-devel-demos/stable/GtkApplicationWindow.py.html
-app = ui.mainwindow.AppMain()
+app = AppMain()
 exit_status = app.run (sys.argv)
 sys.exit (exit_status)

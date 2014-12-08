@@ -52,7 +52,13 @@ else
 
 	log_success ("Got token for user '".$UniqueId."'");
 
+	$returnToken = $resultObject;
+	$returnToken['token_created'] = time();
+
+	$encodedToken = base64_encode (json_encode ($returnToken));
+	$urlSafeEncodedToken = strtr ($encodedToken, '+/', '_-');
+
 	# Forward them so they don't refresh or something and screw
 	# up their code
-	header ('Location: '.APP_BASE_URL.'/done/'.strtr (base64_encode (json_encode ($userInfo['Token'])), '+/', '_-').'/');
+	header ('Location: '.APP_BASE_URL.'/done/'.$urlSafeEncodedToken.'/');
 }

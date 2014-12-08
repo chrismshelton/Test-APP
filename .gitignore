@@ -1,2 +1,3 @@
 *.pyc
 server/private.php
+server/private.sh

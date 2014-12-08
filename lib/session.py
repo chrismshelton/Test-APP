@@ -1,4 +1,5 @@
 import binascii
+from datetime import datetime
 import os
 
 # We need to keep track of some user info so we can connect
@@ -7,11 +8,11 @@ import os
 
 class Session:
 	# list of all the "base" properties that sessions always have
-	default_properties = ['SessionUniqueId', 'SessionCreatedTimestamp']
+	default_properties = ['SessionUniqueID', 'SessionCreatedTimestamp']
 
 	def __init__ (self, params):
 		# default links to other objects
-		self.Token = None
+		self.token = None
 
 		# wtf is this
 		for key, value in params.iteritems():
@@ -25,7 +26,7 @@ class Session:
 				setattr (self, key, None)
 
 	def get_auth_url (self, config):
-		return config.get_server_base_url() + "register/" + self.SessionUniqueId + "/"
+		return config.get_server_base_url() + "register/" + self.SessionUniqueID + "/"
 
 	# This is sort of an uncommon way of doing things, but I think its best.
 	# Our object doesn't know anything about a database, and our database doesn't
@@ -41,7 +42,7 @@ class Session:
 	# itself is used as the canonical definition of the class. Blah blah blah
 	def to_dict (self):
 		dict = {}
-		dict['SessionUniqueId'] = self.SessionUniqueId
+		dict['SessionUniqueID'] = self.SessionUniqueID
 		dict['SessionCreatedTimestamp'] = self.SessionCreatedTimestamp
 
 		return dict
@@ -63,6 +64,6 @@ class Session:
 		# 10, and 11 (or '8', '9', 'a', and 'b' in hex)
 		new_uuid = new_id[0:12]+'4'+new_id[13:16]+('%x' % ((int(new_id[16], 16) / 4) + 8))+new_id[17:32]
 
-		session_params = {'SessionUniqueId' : new_uuid}
+		session_params = {'SessionUniqueID' : new_uuid, 'SessionCreatedTimestamp' : datetime.now().strftime('%Y-%m-%d %H:%M:%S')}
 
 		return Session (session_params)

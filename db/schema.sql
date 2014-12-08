@@ -6,11 +6,11 @@
  * gives us all the flexibility and reliability of sql.
  */
 
-CREATE TABLE IF NOT EXISTS "Session" (
+CREATE TABLE IF NOT EXISTS Session (
 	/* SessionUniqueID because SessionUUID looks AWFUL */
-	"SessionUniqueID" text NOT NULL PRIMARY KEY,
+	SessionUniqueID text NOT NULL PRIMARY KEY,
 
-	"SessionCreateTimestamp" text NULL DEFAULT NULL
+	SessionCreatedTimestamp text NULL DEFAULT NULL
 );
 
 
@@ -20,24 +20,24 @@ CREATE TABLE IF NOT EXISTS "Session" (
  * the names end up way too long... SessionTokenAccessToken...
  * SessionTokenCreatedTimestamp... yuck
  */
-CREATE TABLE IF NOT EXISTS "Token" (
-	"TokenID" integer AUTO_INCREMENT PRIMARY KEY,
+CREATE TABLE IF NOT EXISTS Token (
+	TokenID integer AUTO_INCREMENT PRIMARY KEY,
 
 	/* This token belogs to someone.. who? */
-	"SessionUniqueID" text NOT NULL,
+	SessionUniqueID text NOT NULL,
 
-	"TokenAccessToken" text NOT NULL,
+	TokenAccessToken text NOT NULL,
 
-	"TokenRefreshToken" text NOT NULL,
+	TokenRefreshToken text NOT NULL,
 
-	"TokenCreatedTimestamp" datetime NOT NULL,
+	TokenCreatedTimestamp datetime NOT NULL,
 
-	"TokenExpireTimestamp" datetime NOT NULL,
+	TokenExpireTimestamp datetime NOT NULL,
 
 	/*
 	 * This makes sure every token belongs to an existing session!
 	 */
-	FOREIGN KEY "Token_Session" REFERENCES "Session" ("SessionUniqueID")
+	FOREIGN KEY (SessionUniqueID) REFERENCES Session (SessionUniqueID)
 );
 
 
@@ -47,7 +47,7 @@ CREATE TABLE IF NOT EXISTS "Token" (
  * is just a single value; normally i guess I'd use like a json file or something,
  * but lets see how this works
  */
-CREATE TABLE IF NOT EXISTS "AppSettings" (
-	"AppSettingsKey" text NOT NULL PRIMARY KEY,
-	"AppSettingsValue" text NOT NULL
+CREATE TABLE IF NOT EXISTS AppSettings (
+	AppSettingsKey text NOT NULL PRIMARY KEY,
+	AppSettingsValue text NOT NULL
 );
